@@ -8,9 +8,11 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "alarms")
 data class Alarm(
+    val id :Int,
     var time : Long,
     val interval: Long?=null,
-    val id :Int?=null,
+    val notificationTitle:String?=null,
+    val notificationText: String?=null,
     @PrimaryKey(autoGenerate = true)
     val roomId :Int = 0
 ) : Parcelable

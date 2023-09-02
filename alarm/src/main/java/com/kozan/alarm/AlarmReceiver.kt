@@ -22,20 +22,23 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
-        AlarmUtil.notificationTitle?.let { notificationOlustur(context, intent)}
         val alarm = intent.getParcelableExtra(ALARM) as Alarm?
         alarm?.let {
             AlarmUtil.cancelAlarm(context, it)
              alarm.interval?.let {
-                    val newAlarm = Alarm(alarm.time+it,it)
+                    val newAlarm = Alarm(alarm.id,alarm.time+it,it,)
                     AlarmUtil.setAlarm(context, newAlarm)
                 }
+
+            alarm.notificationTitle?.let {
+                notificationOlustur(context, intent,alarm)
+            }
             }
 
         }
 
 
-    fun notificationOlustur(context: Context, intent : Intent) {
+    fun notificationOlustur(context: Context, intent : Intent,alarm: Alarm) {
         // declaring variables
 
         val notificationManager = NotificationManagerCompat.from(context)
@@ -76,9 +79,9 @@ class AlarmReceiver : BroadcastReceiver() {
             // .setContent(contentView)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             // .setLargeIcon(BitmapFactory.decodeResource(context.resources,R.drawable.firca_icon))
-            .setContentTitle(AlarmUtil.notificationTitle)
+            .setContentTitle(alarm.notificationTitle)
             // .setContentText(" ARAYAN NUMARA : $arayanNumara\n")
-            .setStyle(NotificationCompat.BigTextStyle().bigText(AlarmUtil.notificationText))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(alarm.notificationText))
            // .addAction(android.R.drawable.ic_input_add, "SİPARİŞ EKLE", pendingIntent)
             .setFullScreenIntent(pendingIntent, true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

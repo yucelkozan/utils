@@ -15,8 +15,7 @@ object AlarmUtil {
     const val ALARM_TIME = "alarm_time"
     const val ALARM = "alarm"
 
-    var notificationTitle:String?=null
-    var notificationText : String?=null
+
 
 
 
@@ -39,10 +38,7 @@ object AlarmUtil {
     }
 
 
-    fun setAlarm(context: Context, alarm: Alarm, notificationTitle:String?=null,notificationText: String?=null){
-
-        this.notificationTitle = notificationTitle
-        this.notificationText = notificationText
+    fun setAlarm(context: Context, alarm: Alarm){
 
         if (System.currentTimeMillis()>alarm.time){
               alarm.interval?.let {
