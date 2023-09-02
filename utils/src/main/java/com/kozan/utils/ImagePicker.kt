@@ -1,4 +1,4 @@
-package com.kozan.utils.apputils
+package com.kozan.utils
 
 import android.net.Uri
 import android.util.Log
