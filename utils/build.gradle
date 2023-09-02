@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.kozan.mylibrary'
+    namespace 'com.kozan.utils'
     compileSdk 33
 
     defaultConfig {
@@ -28,6 +28,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures{
+        dataBinding true
     }
 }
 
