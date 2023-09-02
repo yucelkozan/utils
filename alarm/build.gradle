@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id "kotlin-parcelize"
+    id 'maven-publish'
 }
 
 android {
@@ -46,4 +47,18 @@ dependencies {
 
 
 
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.yucelkozan.utils'
+                artifactId = 'alarm'
+                version = '1.0'
+            }
+        }
+    }
 }
