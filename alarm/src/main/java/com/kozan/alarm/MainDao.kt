@@ -20,7 +20,7 @@ interface MainDao {
     suspend fun instertAlarm(alarm: Alarm)
 
 
-    @Query("DELETE FROM alarms WHERE alarmTime=:alarmTime")
+    @Query("DELETE FROM alarms WHERE time=:alarmTime")
     suspend fun delete(alarmTime: Long)
 
 

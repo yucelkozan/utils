@@ -4,13 +4,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 object AlarmUtil {
     const val REQUEST_CODE = "request_code"
@@ -36,7 +33,7 @@ object AlarmUtil {
         val dao = AppDatabase.getInstance(context)?.mainDao()
         dao?.let {
             CoroutineScope(IO).launch{
-                dao.delete(alarm.alarmTime)
+                dao.delete(alarm.time)
             }
         }
     }
@@ -46,13 +43,24 @@ object AlarmUtil {
 
         this.notificationTitle = notificationTitle
         this.notificationText = notificationText
+
+        if (System.currentTimeMillis()>alarm.time){
+              alarm.interval?.let {
+                  alarm.time+=alarm.time+alarm.interval
+              } ?: kotlin.run {
+                  alarm.time= alarm.time+AlarmManager.INTERVAL_DAY
+              }
+        }
+
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+
         // setExact perfect. on time. no delay.
        // .set nearly. 10-60 sn delay
 
         alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
-            alarm.alarmTime,
+            alarm.time,
             getPendingIntent(context,alarm)
 
         )
@@ -78,7 +86,7 @@ object AlarmUtil {
            .putExtra(ALARM,alarm)
         return PendingIntent.getBroadcast(
             context,
-            alarm.alarmTime.toInt(),
+            alarm.time.toInt(),
             intent,
             PendingIntent.FLAG_IMMUTABLE
         )
