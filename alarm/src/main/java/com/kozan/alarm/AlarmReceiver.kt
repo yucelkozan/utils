@@ -26,8 +26,9 @@ class AlarmReceiver : BroadcastReceiver() {
         alarm?.let {
             AlarmUtil.cancelAlarm(context, it)
              alarm.interval?.let {
-                    val newAlarm = Alarm(alarm.id,alarm.time+it,it,)
-                    AlarmUtil.setAlarm(context, newAlarm)
+                    //val newAlarm = Alarm(alarm.id,alarm.time+it,it,alarm.notificationTitle,alarm.notificationText)
+                 alarm.time= alarm.time+it
+                    AlarmUtil.setAlarm(context,alarm)
                 }
 
             alarm.notificationTitle?.let {

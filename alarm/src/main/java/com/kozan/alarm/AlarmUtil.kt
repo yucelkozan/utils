@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 
 object AlarmUtil {
     const val REQUEST_CODE = "request_code"
@@ -39,15 +40,15 @@ object AlarmUtil {
 
 
     fun setAlarm(context: Context, alarm: Alarm){
-
+        val sdf = SimpleDateFormat("E,dd/MM/yyyy kk:mm:ss")
         if (System.currentTimeMillis()>alarm.time){
               alarm.interval?.let {
-                  alarm.time+=alarm.time+alarm.interval
+                  alarm.time=alarm.time+alarm.interval
               } ?: kotlin.run {
                   alarm.time= alarm.time+AlarmManager.INTERVAL_DAY
               }
         }
-
+        val time = sdf.format(alarm.time)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
 
