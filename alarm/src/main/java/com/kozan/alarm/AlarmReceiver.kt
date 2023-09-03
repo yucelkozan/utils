@@ -1,6 +1,7 @@
 package com.kozan.alarm
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -20,11 +21,12 @@ import com.kozan.alarm.AlarmUtil.ALARM
 class AlarmReceiver : BroadcastReceiver() {
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onReceive(context: Context, intent: Intent) {
-
+        println("ALARM RECEİVER ÇALIŞTI")
         val alarm = intent.getParcelableExtra(ALARM) as Alarm?
         alarm?.let {
-            AlarmUtil.cancelAlarm(context, it)
+            AlarmUtil.cancelAlarm(context, it.copy())
              alarm.interval?.let {
                     //val newAlarm = Alarm(alarm.id,alarm.time+it,it,alarm.notificationTitle,alarm.notificationText)
                  alarm.time= alarm.time+it

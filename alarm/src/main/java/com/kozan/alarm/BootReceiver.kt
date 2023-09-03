@@ -9,15 +9,20 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 
 class BootReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, p1: Intent?) {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        println("BOOT RECEİVER ÇALIŞTI")
         context?.let {
                 AppDatabase.getInstance(context)?.let {
                     CoroutineScope(IO).launch {
-                   val alarms = it.mainDao().getAlarms()
+                   val alarms = it.mainDao().getAlarms2()
+                        val sdf = SimpleDateFormat("E,dd/MM/yyyy kk:mm:ss")
+                        println("ALARMS Sayısı: ${alarms.size}")
+                        println("ALARMS : ${alarms?.map { sdf.format(it.time) }}")
                    withContext(Main) {
-                       alarms.value?.forEach {
+                       alarms.forEach {
                            AlarmUtil.setAlarm(context,it)
                        }
                    }

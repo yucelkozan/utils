@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 package="com.kozan.alarm">
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -13,6 +14,8 @@ package="com.kozan.alarm">
         android:enabled="true"
         android:exported="true" />
 
+
+<!--        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>-->
     <receiver
         android:name=".BootReceiver"
         android:enabled="true"

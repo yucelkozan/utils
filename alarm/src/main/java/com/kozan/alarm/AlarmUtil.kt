@@ -2,8 +2,11 @@ package com.kozan.alarm
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.util.Log
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -33,13 +36,24 @@ object AlarmUtil {
         val dao = AppDatabase.getInstance(context)?.mainDao()
         dao?.let {
             CoroutineScope(IO).launch{
-                dao.delete(alarm.time)
+                val sdf = SimpleDateFormat("E,dd/MM/yyyy kk:mm:ss")
+                val time =  sdf.format(alarm.time).toString()
+                dao.delete(alarm.id,alarm.time)
             }
         }
     }
 
 
     fun setAlarm(context: Context, alarm: Alarm){
+       // Notice that in the manifest, the boot receiver is set to android:enabled="false". This means that the receiver will not be called unless the application explicitly enables it. This prevents the boot receiver from being called unnecessarily. You can enable a receiver (for example, if the user sets an alarm) as follows:
+//        val receiver = ComponentName(context, BootReceiver::class.java)
+//        context.packageManager.setComponentEnabledSetting(
+//            receiver,
+//            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+//            PackageManager.DONT_KILL_APP
+//        )
+
+
         val sdf = SimpleDateFormat("E,dd/MM/yyyy kk:mm:ss")
         if (System.currentTimeMillis()>alarm.time){
               alarm.interval?.let {
