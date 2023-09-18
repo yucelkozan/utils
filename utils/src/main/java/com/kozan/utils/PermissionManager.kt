@@ -13,9 +13,8 @@ object PermissionManager {
             appCompatActivity.registerForActivityResult(
                 ActivityResultContracts.RequestMultiplePermissions()){
                 checked.invoke(!it.values.contains(false))
-
-                }
             }
+    }
 
 
     fun checkPermissions(permissions: Array<String>, checked: (Boolean) -> Unit) {
